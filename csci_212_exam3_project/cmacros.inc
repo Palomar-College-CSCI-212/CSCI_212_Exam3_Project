@@ -1,13 +1,7 @@
 ; Module Name: macro_usage.asm
 ; Description: Demonstrates the use of macros
-; Date: 10/23/2016
+; Date: 11/13/2016
 ; Author: Lem Davis
-
-; These libraries are needed for the C library functions.
-; Could also add them to the linker Additional Dependencies line
-INCLUDELIB msvcrtd
-INCLUDELIB legacy_stdio_definitions
-INCLUDELIB ucrtd
 
 ; Usual directives
 .model flat,C
@@ -18,7 +12,6 @@ extern putchar:PROC
 extern getchar:PROC
 extern scanf:PROC
 extern exit:PROC
-
 
 ;----------------------------------------------------
 ; MACROS
@@ -114,8 +107,10 @@ mPrintf MACRO formatStr, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10
 	pushfd		;; Save flags
 
 	;; Replace the "\n" substrings with cr,lf
+	push	esi
 	mov		esi, OFFSET string
 	mBackslashN
+	pop		esi
 
 	;; Push up to ten parameters to use when calling printf
 	;; Need to do more work on extension, check format for sign
@@ -156,7 +151,7 @@ mPrintf MACRO formatStr, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10
 		push	eax
 	ENDIF
 	IFNB	<p1>
-		movzx	eax, p1	;; Make sure 32 bits
+		mov		eax, p1	;; Make sure 32 bits
 		push	eax
 	ENDIF
 

@@ -9,6 +9,12 @@ INCLUDE cmacros.inc
 ;  EBP, EBX, ESI, EDI should not be modified in a function call (non-volatile)
 ;  EAX, ECX, EDX can be modified (volatile)
 
+Instruction STRUCT
+	mnemonic DWORD 0
+	op1 DWORD 0
+	op2 DWORD 0
+Instruction ENDS
+
 ;----------------------
 .code
 ;-----------------------------------------------------
@@ -23,11 +29,12 @@ getMachineCode PROC
 	push	esi
 	push	edi
 
+	; Use esi, edi, ecx to contain the three parameters
 	mov		esi, parameterA
 	mov		edi, parameterB
 	mov		ecx, parameterC
 
-	; Return some machine code
+	; Return some fake machine code
 	mov		[edi], BYTE PTR 41h
 	mov		[edi+1], BYTE PTR 42h
 	mov		[edi+2], BYTE PTR 43h
