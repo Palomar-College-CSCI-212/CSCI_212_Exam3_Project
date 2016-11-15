@@ -66,8 +66,5 @@ int main()
 	getMachineCode(&instruction, machineCode, &count);
 	printf("imm32 operand would look like this: %s\n", imm32);
 
-	printf("Hit return to exit...\n");
-	int ret = scanf("");  // Need this so scanf gets linked
-
 	return 0;
 }

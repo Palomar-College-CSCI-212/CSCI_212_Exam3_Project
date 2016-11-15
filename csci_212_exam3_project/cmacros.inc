@@ -10,7 +10,6 @@
 extern printf:PROC
 extern putchar:PROC
 extern getchar:PROC
-extern scanf:PROC
 extern exit:PROC
 
 ;----------------------------------------------------
@@ -115,39 +114,39 @@ mPrintf MACRO formatStr, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10
 	;; Push up to ten parameters to use when calling printf
 	;; Need to do more work on extension, check format for sign
 	IFNB	<p10>
-		movzx	eax, p10	;; Make sure 32 bits
+		mov		eax, p10	;; Make sure 32 bits
 		push	eax
 	ENDIF
 	IFNB	<p9>
-		movzx	eax, p9	;; Make sure 32 bits
+		mov		eax, p9	;; Make sure 32 bits
 		push	eax
 	ENDIF
 	IFNB	<p8>
-		movzx	eax, p8	;; Make sure 32 bits
+		mov		eax, p8	;; Make sure 32 bits
 		push	eax
 	ENDIF
 	IFNB	<p7>
-		movzx	eax, p7	;; Make sure 32 bits
+		mov		eax, p7	;; Make sure 32 bits
 		push	eax
 	ENDIF
 	IFNB	<p6>
-		movzx	eax, p6	;; Make sure 32 bits
+		mov		eax, p6	;; Make sure 32 bits
 		push	eax
 	ENDIF
 	IFNB	<p5>
-		movzx	eax, p5	;; Make sure 32 bits
+		mov		eax, p5	;; Make sure 32 bits
 		push	eax
 	ENDIF
 	IFNB	<p4>
-		movzx	eax, p4	;; Make sure 32 bits
+		mov		eax, p4	;; Make sure 32 bits
 		push	eax
 	ENDIF
 	IFNB	<p3>
-		movzx	eax, p3	;; Make sure 32 bits
+		mov		eax, p3	;; Make sure 32 bits
 		push	eax
 	ENDIF
 	IFNB	<p2>
-		movzx	eax, p2	;; Make sure 32 bits
+		mov		eax, p2	;; Make sure 32 bits
 		push	eax
 	ENDIF
 	IFNB	<p1>
@@ -205,28 +204,6 @@ mPrintf MACRO formatStr, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10
 TheExit:
 	popfd
 	popad
-ENDM
-
-;-----------------------------------------------------
-; Description: Gets an integer
-; Receives: Nothing
-; Returns: A 32-bit integer in EAX
-;-----------------------------------------------------
-mGetInt MACRO
-	LOCAL format, var
-	.data
-	format BYTE "%d", 0
-	var DWORD 0
-	.code
-	pushad
-	pushfd
-	push	OFFSET var
-	push	OFFSET format
-	call	scanf
-	add		esp, 2 * TYPE DWORD
-	popfd
-	popad
-	mov		eax, var
 ENDM
 
 ; You can use the following symbolic constants to make
